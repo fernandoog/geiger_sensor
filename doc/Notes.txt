@@ -1,0 +1,1 @@
+https://docs.arduino.cc/arduino-cloud/getting-started/esp-32-cloud
