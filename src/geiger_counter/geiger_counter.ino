@@ -18,7 +18,12 @@ void onRadiation()
   Serial.println("A wild gamma ray appeared");
   Serial.print(sen);
   Serial.print(" uSv/h +/- ");
-  Serial.println(er);
+  Serial.println(er);    // clear the display
+  Heltec.display->clear();
+  Heltec.display->drawString(10, 128, String(sen));
+  Heltec.display->drawString(10, 128, String(" uSv/h +/- "));
+  Heltec.display->drawString(10, 128, String(er));
+  Heltec.display->display();
 }
 
 void onNoise()
@@ -27,12 +32,16 @@ void onNoise()
 }
 
 void setup() {
-  // Inicialize Heltec
+  //Display
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
+  Heltec.display->flipScreenVertically();
+  Heltec.display->setFont(ArialMT_Plain_10);
+
   // Initialize serial and wait for port to open:
   Serial.begin(9600);
   // This delay gives the chance to wait for a Serial Monitor without blocking if none is found
   delay(1000);
+
 
   // Defined in thingProperties.h
   initProperties();
@@ -52,9 +61,6 @@ void setup() {
 void loop() {
   ArduinoCloud.update();
   radiationWatch.loop();
-  Heltec.display->clear();
-  Heltec.display->drawString(0, 20, String(sen) + ' uSv/h +/- ' + String(er));
-  Heltec.display->display();
 }
 
 
